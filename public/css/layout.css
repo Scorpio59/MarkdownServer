@@ -45,7 +45,7 @@ body {
 .full.height > .toc {
   position: fixed;
   height: 100%;
-  overflow-x: auto;
+  overflow: auto;
   z-index: 1;
   background-color: #1b1c1d;
   width: 300px;
