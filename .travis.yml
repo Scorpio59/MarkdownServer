@@ -1,4 +1,18 @@
 language: node_js
-node_js:
-  - "4.1"
-  - "4.0"
+node_js: "6"
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+before_install:
+  - npm install -g gulp
+before_script: 
+  - gulp build
+script: 
+  - npm run-script test-cover
+after_script: 
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

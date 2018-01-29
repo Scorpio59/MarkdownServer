@@ -1,17 +1,35 @@
+A
 doctype html
 html(lang="en-US")
     head
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1")
-        link(rel='stylesheet', href='css/github-gist.min.css')
-        link(rel="stylesheet", href="css/style.css")
-        link(rel="stylesheet", href="dist/semantic.min.css")
-        script(src='js/highlight.min.js')  
-        script(src='dist/semantic.min.js')        
-        script.
+        link(rel="stylesheet", href="/dist/semantic.min.css")
+        link(rel='stylesheet', href='/css/vs.css')
+        link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/layout.css")
+        script(src='/dist/jquery.min.js')  
+        script(src='/dist/underscore-min.js')       
+        script(src='/dist/highlight.pack.min.js')  
+        script(src='/dist/semantic.min.js')    
+        script(src='/dist/raphael.min.js')       
+        script(src='/dist/sequence-diagram-min.js')
+        script(type='text/javascript').
           hljs.initHighlightingOnLoad();
-    body  
-    block sidebar         
-    block content
+          $(document)
+            .ready(function() {
+              // create sidebar and attach to menu open
+              $('.ui.sidebar').sidebar('attach events', '#sidebarMenu, #close-sidebar, #sidebar ul li a');
+              $(".lang-sequence").sequenceDiagram({theme: 'simple'});
+            })
+          ;
+    body
+      include sidebar
+      include menu  
+      div.ui.pusher  
+        div.full.height
+          include toc
+          div.article.ui
+              block content
         

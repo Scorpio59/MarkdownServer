@@ -1,7 +1,17 @@
+# Application specific
+credentials.json
+markdown
+public/images
+
 # NodeJS
 node_modules
-build
 typings
+src/iisnode
+coverage
+npm-debug.log
+
+# VSCode
+*browse.VC*
 
 # Windows image file caches
 Thumbs.db
@@ -51,6 +61,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#semantic
+# Semantic
 semantic/dist/*
-semantic/tasks/*
+public/dist/*

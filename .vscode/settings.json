@@ -3,6 +3,9 @@
   "editor.tabSize": 2,
   "files.exclude": {
     "**/.git": true,
-    "**/node_modules": true
-  }
+    "**/node_modules": true,
+    "**/src/iisnode": true,
+    "credentials.json": true
+  },
+  "beautify.onSave": true
 }

@@ -1,20 +1,29 @@
+// core dependencies
 var express = require('express');
 var path = require('path');
-var os = require('os');
 var errorHandler = require('errorhandler');
-var fs = require('fs');
 var logger = require('morgan');
-var marked = require('marked');
-var constants = require('./constants')
+// modules
+var bluebird = require('bluebird');
+var markdownifier = require('./markdownifier');
+var constants = require('./constants');
+// routes
+var local = require('./routes/local');
+var external = require('./routes/external');
+var toc = require('./routes/toc');
+
 var app = express();
-var toc = require('markdown-toc');
 
 // all environments
-app.set(constants.PORT, process.env.PORT || 3000);
 app.set('views', path.resolve(__dirname, '../views'));
 app.set('view engine', 'jade');
 app.use(express.static(path.resolve(__dirname, '../public')));
-app.set(constants.MARKDOWN_FOLDER, process.env.MARKDOWN_FOLDER || '../markdown/');
+
+// Configuration
+// TODO: refactor with nconf
+app.set(constants.PORT, process.env.PORT || 3337);
+app.set(constants.MARKDOWN_FOLDER, process.env.MARKDOWN_FOLDER || './markdown/');
+process.env.MARKDOWN_FOLDER = process.env.MARKDOWN_FOLDER ? process.env.MARKDOWN_FOLDER : './markdown/';
 
 // development only
 if (process.env.NODE_ENV === 'development') {
@@ -23,20 +32,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(logger('dev'));
 }
 
-app.get('/:filename', function (req, res) {
-  var filename = req.params.filename;
-  var serverFilepath = path.resolve(__dirname, app.get(constants.MARKDOWN_FOLDER) + filename + '.md');
-  fs.access(serverFilepath, fs.F_OK, function (err) {
-    if (!err) {
-      var content = fs.readFileSync(serverFilepath, "utf8");
-      // Using async version of marked 
-      marked(content, function (err, contentMarked) {
-      res.render('markdown', { markdown: marked(contentMarked), sidebar:marked(toc(content).content)});
-      });
-    } else {
-      res.status(200).send('File not found: ' + filename);
-    }
-  });
-});
+app.use('/', local);
+app.use('/external', external);
+app.use('/toc', toc);
 
 module.exports = app;

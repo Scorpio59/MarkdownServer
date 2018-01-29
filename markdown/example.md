@@ -30,3 +30,12 @@ Lists look like this:
 * List item 2
 * List item 3
 * List item 4
+
+## Diagrams
+
+```sequence
+Andrew->China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
+Andrew->>China: I am good thanks!
+```
